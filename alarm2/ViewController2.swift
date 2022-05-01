@@ -47,6 +47,7 @@ class ViewController2: UIViewController {
         //転移先に戻る
         dismiss(animated: true, completion: nil)
     }
+    //あいう
     
 
     /*
