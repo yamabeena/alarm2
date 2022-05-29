@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		9B82538B27E6E89D00EFF847 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B82538A27E6E89D00EFF847 /* ViewController2.swift */; };
+		9BBC93EE2843161100C23A0B /* alart2mp3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9BBC93ED2843161100C23A0B /* alart2mp3.mp3 */; };
+		9BBC93F028431CF300C23A0B /* alart3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9BBC93EF28431CF300C23A0B /* alart3.mp3 */; };
+		9BBC93F428433D8800C23A0B /* ViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBC93F328433D8800C23A0B /* ViewController3.swift */; };
 		9BCD49E627DDF771008F7482 /* alart.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9BCD49E527DDF771008F7482 /* alart.mp3 */; };
 		9BD0B28527DCAE3000D4069E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD0B28427DCAE3000D4069E /* AppDelegate.swift */; };
 		9BD0B28727DCAE3000D4069E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD0B28627DCAE3000D4069E /* SceneDelegate.swift */; };
@@ -39,6 +42,9 @@
 
 /* Begin PBXFileReference section */
 		9B82538A27E6E89D00EFF847 /* ViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
+		9BBC93ED2843161100C23A0B /* alart2mp3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alart2mp3.mp3; sourceTree = "<group>"; };
+		9BBC93EF28431CF300C23A0B /* alart3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alart3.mp3; sourceTree = "<group>"; };
+		9BBC93F328433D8800C23A0B /* ViewController3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController3.swift; sourceTree = "<group>"; };
 		9BCD49E527DDF771008F7482 /* alart.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alart.mp3; sourceTree = "<group>"; };
 		9BD0B28127DCAE3000D4069E /* alarm2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = alarm2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BD0B28427DCAE3000D4069E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,8 +113,11 @@
 				9BD0B28627DCAE3000D4069E /* SceneDelegate.swift */,
 				9BD0B28827DCAE3000D4069E /* ViewController.swift */,
 				9B82538A27E6E89D00EFF847 /* ViewController2.swift */,
+				9BBC93F328433D8800C23A0B /* ViewController3.swift */,
 				9BD0B28A27DCAE3000D4069E /* Main.storyboard */,
+				9BBC93ED2843161100C23A0B /* alart2mp3.mp3 */,
 				9BCD49E527DDF771008F7482 /* alart.mp3 */,
+				9BBC93EF28431CF300C23A0B /* alart3.mp3 */,
 				9BD0B28D27DCAE3300D4069E /* Assets.xcassets */,
 				9BD0B28F27DCAE3300D4069E /* LaunchScreen.storyboard */,
 				9BD0B29227DCAE3300D4069E /* Info.plist */,
@@ -241,6 +250,8 @@
 				9BD0B28E27DCAE3300D4069E /* Assets.xcassets in Resources */,
 				9BD0B28C27DCAE3000D4069E /* Main.storyboard in Resources */,
 				9BCD49E627DDF771008F7482 /* alart.mp3 in Resources */,
+				9BBC93EE2843161100C23A0B /* alart2mp3.mp3 in Resources */,
+				9BBC93F028431CF300C23A0B /* alart3.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BBC93F428433D8800C23A0B /* ViewController3.swift in Sources */,
 				9BD0B28927DCAE3000D4069E /* ViewController.swift in Sources */,
 				9B82538B27E6E89D00EFF847 /* ViewController2.swift in Sources */,
 				9BD0B28527DCAE3000D4069E /* AppDelegate.swift in Sources */,

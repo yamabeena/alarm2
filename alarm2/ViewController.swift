@@ -8,6 +8,10 @@
 import UIKit
 import AVFoundation
 class ViewController: UIViewController, TestDelegate {
+    
+    //alartのサウンドファイルを読み込んで、プレイヤーを作る
+    let alarmSoundPlayer = try!AVAudioPlayer(data: NSDataAsset(name: "alart")!.data)
+    
     func test(data: Int) {
         
     }
@@ -18,6 +22,7 @@ class ViewController: UIViewController, TestDelegate {
     @IBOutlet var myLabel: UILabel!
     @IBOutlet var setTimeLabel: UILabel!
         
+    var player:AVAudioPlayer!
         var tempTime: String = "00:00"
         var setTime: String = "00:00"
 
@@ -25,6 +30,14 @@ class ViewController: UIViewController, TestDelegate {
         override func viewDidLoad() {
             super.viewDidLoad()
             
+//            do {
+//                try player = AVAudioPlayer("alart")
+//                //音楽をバッファに読み込んでおく
+//                player.prepareToPlay()
+//            } catch {
+//                print(error)
+//            }
+//
           
             // 起動した時点の時刻をmyLabelに反映
             myLabel.text = "現在時刻: " + getNowTime()
@@ -87,6 +100,11 @@ class ViewController: UIViewController, TestDelegate {
             // 現在時刻が設定時刻と一緒なら
             if str == setTime{
                 alert()
+                
+                //alartの音を巻き戻す
+                alarmSoundPlayer.currentTime = 0
+                //alartの音を再生する
+                alarmSoundPlayer.play()
             }
         }
         
