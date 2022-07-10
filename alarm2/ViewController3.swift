@@ -34,6 +34,14 @@ class ViewController3: UIViewController, UITableViewDataSource, TestDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let memo: Results<Memo>? = read()
+        
+        for i in  0...memo!.count {
+            memoArray[i] = memo![i].memo
+            timeArray[i] = memo![i].zikan
+        }
+        
+       
      //   do {
         //                try player = AVAudioPlayer("alart")
         //                //音楽をバッファに読み込んでおく
@@ -105,6 +113,7 @@ class ViewController3: UIViewController, UITableViewDataSource, TestDelegate {
         //転移先の処理を記述
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "a"{
+    
             //転移先のNextViewControllerクラスを取得
             let nextVC = segue.destination as! ViewController2
             // protocolを紐づける
@@ -170,6 +179,9 @@ class ViewController3: UIViewController, UITableViewDataSource, TestDelegate {
             myAlert.addAction(myAction)
             present(myAlert, animated: true, completion: nil)
         }
+    func read() -> Results<Memo>?{
+        return realm.objects(Memo.self)
+    }
 
 }
 
