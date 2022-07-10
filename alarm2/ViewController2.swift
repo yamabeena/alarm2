@@ -7,13 +7,18 @@
 
 import UIKit
 import AVFAudio
+import RealmSwift
 import AVFoundation
 
 protocol TestDelegate {
     func test(data: Int)
 }
 
-class ViewController2: UIViewController {
+class ViewController2: UIViewController, UITextFieldDelegate{
+    
+    let realm = try! Realm()
+    
+    @IBOutlet var memoTextField: UITextField!
     
     //alartのサウンドファイルを読み込んで、プレイヤーを作る
     let alarmSoundPlayer = try! AVAudioPlayer(data: NSDataAsset(name: "alart")!.data)
@@ -22,8 +27,8 @@ class ViewController2: UIViewController {
 
     
     // デリケートを作成
-    var testDelegate:ViewController?
-    
+    var testDelegate:ViewController3?
+   
     
     @IBOutlet weak var Button: UIButton!
     @IBOutlet weak var Button2: UIButton!
@@ -35,55 +40,77 @@ class ViewController2: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let memo: Results<Memo>? = read()
+       
+        memoTextField.delegate = self
         
         // DatePickerのstyleをホイールにする
         myDPvar.preferredDatePickerStyle = .wheels
         
         
         // Do any additional setup after loading the view.
+        
+    }
+    func read() -> Results<Memo>?{
+        return realm.objects(Memo.self)
+    }
+    //保存するためのパスを作る
+        func createLocalDataFile(){
+            //作成するテキストファイルの名前
+            let fileName = "\(NSUUID().uuidString).png"
+            
+        }
+                @IBAction func save() {
+                    let memo: String = memoTextField.text!
+                    
+                    let newMemo = Memo()
+                    newMemo.memo = memo
+                }
+                @IBAction func myDPfunc() {
+                    // DPの値を成形
+                    let format = DateFormatter()
+                    format.dateFormat = "HH:mm"
+                    // 一時的にDPの値を保持
+                    tempTime = format.string(from: myDPvar.date)
+                    
+                    // Delegate発火
+                    testDelegate?.register(data: tempTime)
+                    
+                    //転移先に戻る
+                    dismiss(animated: true, completion: nil)
+                }
+                
+                @IBAction func alartButton() {
+                    //alartの音を再生する
+                    alarmSoundPlayer.play()
+                    Button.backgroundColor = UIColor(red: 170, green: 174, blue: 179, alpha: 68)
+                }
+                @IBAction func alar2tButton() {
+                    //alartの音を再生する
+                    alarm2SoundPlayer.play()
+                    Button2.backgroundColor = UIColor.red
+                    
+                }
+                func alart3Button() {
+                    //alartの音を再生する
+                    alarm3SoundPlayer.play()
+                    Button3.backgroundColor = UIColor.red
+                }
+                @IBAction func stopbutton() {
+                    alarmSoundPlayer.stop()
+                    alarm2SoundPlayer.stop()
+                    alarm3SoundPlayer.stop()
+                    Button.backgroundColor = UIColor.clear
+                    Button2.backgroundColor = UIColor.clear
+                    Button3.backgroundColor = UIColor.clear
+                    
+                    
+                }
+        
+            
     }
    
     
-    @IBAction func myDPfunc() {
-        // DPの値を成形
-        let format = DateFormatter()
-        format.dateFormat = "HH:mm"
-        // 一時的にDPの値を保持
-        tempTime = format.string(from: myDPvar.date)
-        
-        // Delegate発火
-        testDelegate?.register(data: tempTime)
-        
-        //転移先に戻る
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func alartButton() {
-        //alartの音を再生する
-        alarmSoundPlayer.play()
-        Button.backgroundColor = UIColor(red: 170, green: 174, blue: 179, alpha: 68)
-    }
-    @IBAction func alar2tButton() {
-        //alartの音を再生する
-        alarm2SoundPlayer.play()
-        Button2.backgroundColor = UIColor.red
-        
-    }
-    @IBAction func alart3Button() {
-        //alartの音を再生する
-        alarm3SoundPlayer.play()
-        Button3.backgroundColor = UIColor.red
-    }
-    @IBAction func stopbutton() {
-        alarmSoundPlayer.stop()
-        alarm2SoundPlayer.stop()
-        alarm3SoundPlayer.stop()
-        Button.backgroundColor = UIColor.clear
-        Button2.backgroundColor = UIColor.clear
-        Button3.backgroundColor = UIColor.clear
-        
-        
-    }
     
     
     //あいう
@@ -99,4 +126,6 @@ class ViewController2: UIViewController {
     }
     */
 
-}
+
+
+
