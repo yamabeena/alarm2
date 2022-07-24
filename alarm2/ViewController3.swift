@@ -8,16 +8,12 @@
 import UIKit
 import RealmSwift
 import AVFoundation
-class ViewController3: UIViewController, UITableViewDataSource, TestDelegate {
+class ViewController3: UIViewController, UITableViewDataSource {
 
     
     @IBOutlet var myLabel: UILabel!
     @IBOutlet var setTimeLabel: UILabel!
         
-    var player:AVAudioPlayer!
-        var tempTime: String = "00:00"
-        var setTime: String = "00:00"
-
     
     
     //Realmを宣言
@@ -31,14 +27,20 @@ class ViewController3: UIViewController, UITableViewDataSource, TestDelegate {
     //メモを見れるようにする配列
     var memoArray = [String]()
     
-    override func viewDidLoad() {
+    override func viewDidLoad(){
         super.viewDidLoad()
 
         let memo: Results<Memo>? = read()
         
+        if memo!.count <= 0{
+            memoArray.append("")
+            timeArray.append("")
+        }else{
+        
         for i in  0...memo!.count {
             memoArray[i] = memo![i].memo
             timeArray[i] = memo![i].zikan
+        }
         }
         
        
@@ -51,24 +53,23 @@ class ViewController3: UIViewController, UITableViewDataSource, TestDelegate {
         //            }
         //
                   
-                    // 起動した時点の時刻をmyLabelに反映
-                    myLabel.text = "現在時刻: " + getNowTime()
-                    setTimeLabel.text = "設定時刻: " + getNowTime()
+                   
+                    
                     // 時間管理してくれる
-                    _ = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+        _ = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(CustomCell.update), userInfo: nil, repeats: true)
                     
         
             //テーブルビューのデータソースメソッドはViewControllerクラスに書くよ、という設定
         table.dataSource = self
         
-        //timeArrayに時間を入れていく
-        timeArray = ["","",""]
+        
         // Do any additional setup after loading the view.
     }
     
     //セルの数を設定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return timeArray.count
+        
     }
     
     //ID付きのセルを取得して、セル所属のtextLabelにテストと表示させてみる
@@ -77,14 +78,26 @@ class ViewController3: UIViewController, UITableViewDataSource, TestDelegate {
         
         
         //memoArrayに時間を入れていく
-        memoArray = ["","",""]
+       // memoArray = ["","",""]
         //セルにメモを表示させる
         cell.memoLabel?.text = memoArray[indexPath.row]
         //セルに時間を表示させる
         cell.timeLabel?.text = timeArray[indexPath.row]
         
+    
+       
         return cell
     }
+    override func viewWillAppear(_ animated: Bool) {
+        let memo: Results<Memo>? = read()
+        for i in  0...memo!.count {
+            memoArray[i] = memo![i].memo
+            timeArray[i] = memo![i].zikan
+        }
+        table.reloadData()
+    }
+    
+   
     
 
     
@@ -98,39 +111,74 @@ class ViewController3: UIViewController, UITableViewDataSource, TestDelegate {
     }
     */
     
+    
+       
+    
+    
+    
+   
+    func read() -> Results<Memo>?{
+        return realm.objects(Memo.self)
+    }
+    
+    // アラートの表示
+    func alert() {
+        let path = URL(fileURLWithPath: Bundle.main.path(forResource: "alart",ofType:"mp3")!)
+        let audioPlayer = try! AVAudioPlayer(contentsOf:path)
+        audioPlayer.play()
+        
+        let myAlert = UIAlertController(title: "アラーム", message: "", preferredStyle: .alert)
+        let myAction = UIAlertAction(title: "OK", style: .default) {
+            action in print("foo!!")
+        }
+        myAlert.addAction(myAction)
+        present(myAlert, animated: true, completion: nil)
+    }
+    //実装した転移先のprotocolが呼ばれた時の処理
+//    func register(data: String){
+//       tempTime = (data)
+//       print(data)  //5
+//    }
+
+
+}
+
+//カスタムセルクラス
+class CustomCell: UITableViewCell {
+    
+    var indexPath = IndexPath()
+    var onoff:Bool = true
+    var player:AVAudioPlayer!
+    var tempTime: String = "00:00"
+    var setTime: String = "00:00"
     let alarmSoundPlayer = try!AVAudioPlayer(data: NSDataAsset(name: "alart")!.data)
     
     func test(data: Int) {
         
     }
 
-       
     
-    //ボタンクリック時に画面転移する
-    @IBAction func alarmButton(_ sender: Any) {
-        performSegue(withIdentifier: "a", sender: nil)
-    }
-        //転移先の処理を記述
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        if segue.identifier == "a"{
+    @IBOutlet var onoffbutton: UIButton!
+    @IBOutlet weak var memoLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
     
-            //転移先のNextViewControllerクラスを取得
-            let nextVC = segue.destination as! ViewController2
-            // protocolを紐づける
-            nextVC.testDelegate = self
-    }
+    @IBAction func onoffbuttonaction(){
+        if onoff == true{
+            onoffbutton.setTitle("OFF", for: .normal)
+            onoff = false
+            myButtonfunc()
+        }else{
+            onoff = true
+            onoffbutton.setTitle("ON", for: .normal)
+        }
+            
     }
     
-    //実装した転移先のprotocolが呼ばれた時の処理
-    func register(data: String){
-       tempTime = (data)
-       print(data)  //5
-    }
-        @IBAction func myButtonfunc() {
+       func myButtonfunc() {
             // アラームをセット
             setTime = tempTime
             // 表示
-            setTimeLabel.text = "設定時刻: " + setTime
+            timeLabel.text = setTime
             
         }
 
@@ -148,8 +196,7 @@ class ViewController3: UIViewController, UITableViewDataSource, TestDelegate {
         @objc func update() {
             // 現在時刻を取得
             let str = getNowTime()
-            // myLabelに反映
-            myLabel.text = "現在時刻: " + str
+            
             // アラーム鳴らすか判断
             myAlarm(str: str)
         }
@@ -157,7 +204,7 @@ class ViewController3: UIViewController, UITableViewDataSource, TestDelegate {
         func myAlarm(str: String) {
             // 現在時刻が設定時刻と一緒なら
             if str == setTime{
-                alert()
+                ViewController3().alert()
                 
                 //alartの音を巻き戻す
                 alarmSoundPlayer.currentTime = 0
@@ -166,46 +213,7 @@ class ViewController3: UIViewController, UITableViewDataSource, TestDelegate {
             }
         }
         
-        // アラートの表示
-        func alert() {
-            let path = URL(fileURLWithPath: Bundle.main.path(forResource: "alart",ofType:"mp3")!)
-            let audioPlayer = try! AVAudioPlayer(contentsOf:path)
-            audioPlayer.play()
-            
-            let myAlert = UIAlertController(title: "アラーム", message: "", preferredStyle: .alert)
-            let myAction = UIAlertAction(title: "OK", style: .default) {
-                action in print("foo!!")
-            }
-            myAlert.addAction(myAction)
-            present(myAlert, animated: true, completion: nil)
-        }
-    func read() -> Results<Memo>?{
-        return realm.objects(Memo.self)
-    }
-
-}
-
-//カスタムセルクラス
-class CustomCell: UITableViewCell {
-    
-    var indexPath = IndexPath()
-    var onoff:Bool = true
-    
-    @IBOutlet var onoffbutton: UIButton!
-    @IBOutlet weak var memoLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
-    
-    @IBAction func onoffbuttonaction(){
-        if onoff == true{
-            onoffbutton.setTitle("OFF", for: .normal)
-            onoff = false
-        }else{
-            onoff = true
-            onoffbutton.setTitle("ON", for: .normal)
-        }
-            
-    }
-    
+        
   
     
     

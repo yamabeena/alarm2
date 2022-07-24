@@ -33,6 +33,7 @@ class ViewController2: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var Button: UIButton!
     @IBOutlet weak var Button2: UIButton!
     @IBOutlet weak var Button3: UIButton!
+  
     
     @IBOutlet var myDPvar: UIDatePicker!
     var tempTime: String = "00:00"
@@ -54,19 +55,23 @@ class ViewController2: UIViewController, UITextFieldDelegate{
     func read() -> Results<Memo>?{
         return realm.objects(Memo.self)
     }
-    //保存するためのパスを作る
-        func createLocalDataFile(){
-            //作成するテキストファイルの名前
-            let fileName = "\(NSUUID().uuidString).png"
-            
-        }
+//    //保存するためのパスを作る
+//        func createLocalDataFile(){
+//            //作成するテキストファイルの名前
+//            let fileName = "\(NSUUID().uuidString).png"
+//
+//        }
                 @IBAction func save() {
                     let memo: String = memoTextField.text!
+                    let time: String = tempTime
                     
                     let newMemo = Memo()
                     newMemo.memo = memo
+                    newMemo.zikan = time
+                    //転移先に戻る
+                    dismiss(animated: true, completion: nil)
                 }
-                @IBAction func myDPfunc() {
+                @IBAction func myDPfunc(){
                     // DPの値を成形
                     let format = DateFormatter()
                     format.dateFormat = "HH:mm"
@@ -74,10 +79,9 @@ class ViewController2: UIViewController, UITextFieldDelegate{
                     tempTime = format.string(from: myDPvar.date)
                     
                     // Delegate発火
-                    testDelegate?.register(data: tempTime)
+                  //  testDelegate?.register(data: tempTime)
                     
-                    //転移先に戻る
-                    dismiss(animated: true, completion: nil)
+                    
                 }
                 
                 @IBAction func alartButton() {

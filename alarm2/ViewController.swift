@@ -59,7 +59,7 @@ class ViewController: UIViewController, TestDelegate {
             //転移先のNextViewControllerクラスを取得
             let nextVC = segue.destination as! ViewController2
             // protocolを紐づける
-            nextVC.testDelegate = self
+           // nextVC.testDelegate = self
     }
     }
     
